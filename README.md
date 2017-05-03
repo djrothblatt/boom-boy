@@ -16,7 +16,7 @@ Additionally, this project will include:
   
 ## Wireframes
 
-![wireframe](https://github.com/djrothblatt/boom-boy/boom-boy-layout.png)
+![wireframe](raw.githubusercontent.com/djrothblatt/boom-boy/master/boom-boy-layout.png)
 
 ## Architecture & Technologies
 The project will be implemented with the following technologies:
