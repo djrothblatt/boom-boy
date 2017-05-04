@@ -11,8 +11,8 @@ const MOVE_KEYS = {
 function init() {
     const stage = new createjs.Stage("gameEasel");
     const player = new Player({
-	x: 1,
-	y: 3,
+	x: 0,
+	y: 0,
 	color: "Blue",
 	stage
     });
@@ -23,8 +23,6 @@ function init() {
 }
 
 function handleKeyDown(e, board) {
-    //    debugger
-    
     let direction = MOVE_KEYS[e.keyCode];
     if (direction) {
 	e.preventDefault();
@@ -33,7 +31,6 @@ function handleKeyDown(e, board) {
 }
 
 function tick(board, stage) {
-//    stage.clear();
     stage.removeAllChildren();
     board.draw();
     stage.update();

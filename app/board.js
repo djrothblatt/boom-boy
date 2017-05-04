@@ -12,9 +12,17 @@ class Board {
 	this.dimY = DIM_Y;
 	this.boxLength = BOX_X;
 	this.boxHeight = BOX_Y;
-	this.grid = new Array(this.dimY).map(row => {
-	    return new Array(this.dimX);
-	});
+
+	this.grid = [];
+	for (let i = 0; i < DIM_Y; i++) {
+	    let innerArray = [];
+	    for (let j = 0; j < DIM_X; j++) {
+		innerArray.push(undefined);
+	    }
+	    this.grid.push(innerArray);
+	}
+
+	this.placeObstacles();
 	this.stage = stage;
 	this.player = player;
     }
@@ -23,7 +31,7 @@ class Board {
 	for (let i = 0; i < this.dimY; i++) {
 	    for (let j = 0; j < this.dimX; j++) {
 		const box = new createjs.Shape();
-		const color = i % 2 === j % 2 ? "Green" : "Red";
+		const color = this.at(i, j) === "rock" ? "Gray" : "Green";
 		box.graphics.beginFill(color).drawRect(
 		    i * this.boxLength,
 		    j * this.boxHeight,
@@ -37,25 +45,63 @@ class Board {
 	this.player.draw(this.boxLength, this.boxHeight);
     }
 
-    isValidMove(direction) {
-	switch (direction) {
-	case "left":
-	    return (this.player.x > 0);
-	case "right":
-	    return (this.player.x < this.dimY - 1);
-	case "up":
-	    return (this.player.y > 0);
-	case "down":
-	    return (this.player.y < this.dimX - 1);
-	default:
-	    return false;
+    placeObstacles() {
+	for (let i = 1; i < this.dimY; i += 2) {
+	    for (let j = 1; j < this.dimX; j += 2) {
+		this.grid[i][j] = "rock";
+	    }
 	}
     }
 
-    move(direction) {
-	if (this.isValidMove(direction)) {
-	    this.player.move(direction);
+    at(x, y) {
+	return this.grid[x][y];
+    }
+    
+    playerCanMove(direction) {
+	let newX = this.player.x;
+	let newY = this.player.y;
+	switch (direction) {
+	case "left":
+	    newX--;
+	    break;
+	case "right":
+	    newX++;
+	    break;
+	case "up":
+	    newY--;
+	    break;
+	case "down":
+	    newY++;
+	    break;
 	}
+
+	return this.at(newX, newY) !== "rock";
+    }
+    
+    isValidMove(direction) {
+	let inBounds;
+	switch (direction) {
+	case "left":
+	    inBounds = (this.player.x > 0);
+	    break;
+	case "right":
+	    inBounds = (this.player.x < this.dimY - 1);
+	    break;
+	case "up":
+	    inBounds = (this.player.y > 0);
+	    break;
+	case "down":
+	    inBounds = (this.player.y < this.dimX - 1);
+	    break;
+	default:
+	    inBounds = false;
+	}
+
+	return inBounds && this.playerCanMove(direction);
+    }
+    
+    move(direction) {
+	if (this.isValidMove(direction)) this.player.move(direction);
     }
 }
 
