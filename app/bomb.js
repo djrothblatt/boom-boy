@@ -3,7 +3,7 @@ export default class Bomb {
 	this.x = x;
 	this.y = y;
 	this.range = 3;
-	this.lifetime = 3; //seconds
+	this.lifetime = 3000;
     }
 
     explosionPath() {
