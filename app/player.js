@@ -1,4 +1,5 @@
 import createjs from 'createjs';
+import Bomb from './bomb';
 
 export default class Player {
     constructor({x, y, color, stage}) {
@@ -21,16 +22,16 @@ export default class Player {
 
     move(direction) {
 	switch (direction) {
-	case "left":
+	case 'left':
 	    this.x--;
 	    return;
-	case "right":
+	case 'right':
 	    this.x++;
 	    return;
-	case "up":
+	case 'up':
 	    this.y--;
 	    return;
-	case "down":
+	case 'down':
 	    this.y++;
 	    return;
 	default:
