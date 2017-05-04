@@ -31,7 +31,16 @@ class Board {
 	for (let i = 0; i < this.dimY; i++) {
 	    for (let j = 0; j < this.dimX; j++) {
 		const box = new createjs.Shape();
-		const color = this.at(i, j) === "rock" ? "Gray" : "Green";
+
+		let color;
+		if (!this.isOccupied(j, i)) {
+		    color = "Green";
+		} else if (this.grid[i][j] == "rock") {
+		    color = "Gray";
+		} else {
+		    color = "Black";
+		}
+		
 		box.graphics.beginFill(color).drawRect(
 		    i * this.boxLength,
 		    j * this.boxHeight,
@@ -45,16 +54,26 @@ class Board {
 	this.player.draw(this.boxLength, this.boxHeight);
     }
 
+    isOccupied(x, y) {
+	return (["rock", "destructible-rock"].includes(this.grid[y][x]));
+    }
+    
     placeObstacles() {
 	for (let i = 1; i < this.dimY; i += 2) {
 	    for (let j = 1; j < this.dimX; j += 2) {
 		this.grid[i][j] = "rock";
 	    }
 	}
-    }
 
-    at(x, y) {
-	return this.grid[x][y];
+	let numRandomObstacles = 10;
+	while (numRandomObstacles > 0) {
+	    let x = Math.floor(Math.random() * this.dimX);
+	    let y = Math.floor(Math.random() * this.dimY);
+	    if (!this.isOccupied(x, y)) {
+		this.grid[y][x] = "destructible-rock";
+		numRandomObstacles--;
+	    }
+	}
     }
     
     playerCanMove(direction) {
@@ -75,7 +94,7 @@ class Board {
 	    break;
 	}
 
-	return this.at(newX, newY) !== "rock";
+	return !this.isOccupied(newY, newX);
     }
     
     isValidMove(direction) {
