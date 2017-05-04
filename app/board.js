@@ -42,11 +42,11 @@ class Board {
 	case "left":
 	    return (this.player.x > 0);
 	case "right":
-	    return (this.player.x < this.dimX);
+	    return (this.player.x < this.dimY - 1);
 	case "up":
 	    return (this.player.y > 0);
 	case "down":
-	    return (this.player.y < this.dimY);
+	    return (this.player.y < this.dimX - 1);
 	default:
 	    return false;
 	}

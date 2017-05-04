@@ -23,14 +23,17 @@ function init() {
 }
 
 function handleKeyDown(e, board) {
-//    debugger
-    e.preventDefault();
+    //    debugger
+    
     let direction = MOVE_KEYS[e.keyCode];
-    board.move(direction);
+    if (direction) {
+	e.preventDefault();
+	board.move(direction);
+    }
 }
 
 function tick(board, stage) {
-    stage.clear();
+//    stage.clear();
     stage.removeAllChildren();
     board.draw();
     stage.update();
