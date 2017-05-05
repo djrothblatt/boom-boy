@@ -64,7 +64,7 @@ class Board {
     }
 
     isOccupied(x, y) {
-	return (["rock", "destructible-rock", "bomb"].includes(this.grid[y][x]));
+	return (["rock", "destructible-rock", "bomb"].includes(this.grid[x][y]));
     }
 
     placeObstacles() {
@@ -76,10 +76,10 @@ class Board {
 
 	let numRandomObstacles = 10;
 	while (numRandomObstacles > 0) {
-	    let x = Math.floor(Math.random() * this.numRows);
-	    let y = Math.floor(Math.random() * this.numCols);
+	    let x = Math.floor(Math.random() * this.numCols);
+	    let y = Math.floor(Math.random() * this.numRows);
 	    if (!this.isOccupied(x, y)) {
-		this.grid[y][x] = "destructible-rock";
+		this.grid[x][y] = "destructible-rock";
 		numRandomObstacles--;
 	    }
 	}
@@ -92,20 +92,40 @@ class Board {
 	this.grid[x][y] = "bomb";
 	window.setTimeout(() => {
 	    this.grid[x][y] = undefined;
-	    bomb.explosionPath().filter(this.inBounds).forEach(this.placeExplosion);
+	    const positionsInBounds = bomb.explosionPath().map(line => line.filter(this.inBounds));
+	    const unobstructedPositions = positionsInBounds.map(line => this.removeObstructedPositions(line));
+	    const flattened = unobstructedPositions.reduce((list, val) => list.concat(val), []);
+	    flattened.forEach(this.placeExplosion);
 	}, bomb.lifetime);
     }
 
-    placeExplosion(pos) {
-	let x = pos.x;
-	let y = pos.y;
+    placeExplosion({x, y}) {
 	this.grid[x][y] = "explosion";
 	window.setTimeout(() => {
 	    this.grid[x][y] = undefined;
 	}, 2000);
     }
 
-    playerCanMove(direction) {
+    removeObstructedPositions(line) {
+	let out = [];
+	for (let i = 0, n = line.length; i < n; i++) {
+	    const pos = line[i];
+	    if (this.isOccupied(pos.x, pos.y)) {
+		return out;
+	    } else {
+		out.push(pos);
+	    }
+	};
+	return out;
+    }
+
+    inBounds({x, y}) {
+	return (x >= 0) && (y >= 0) && (x < NUM_COLS) && (y < NUM_ROWS);
+    }
+
+    isValidMove(direction) {
+	const pos = {x: this.player.x, y: this.player.y};
+
 	let newX = this.player.x;
 	let newY = this.player.y;
 	switch (direction) {
@@ -123,17 +143,7 @@ class Board {
 	    break;
 	}
 
-	return !this.isOccupied(newY, newX);
-    }
-
-    inBounds({x, y}) {
-	return (x >= 0) && (y >= 0) && (x < NUM_COLS) && (y < NUM_ROWS);
-    }
-
-    isValidMove(direction) {
-	const pos = {x: this.player.x, y: this.player.y};
-
-	return this.inBounds(pos) && this.playerCanMove(direction);
+	return this.inBounds({x: newX, y: newY}) && !this.isOccupied(newX, newY);
     }
 
     move(direction) {

@@ -7,13 +7,19 @@ export default class Bomb {
     }
 
     explosionPath() {
-	function ring(i) {
-	    return [{x: this.x - i, y: this.y},
-		    {x: this.x + i, y: this.y},
-		    {x: this.x, y: this.y - i},
-		    {x: this.x, y: this.y + i}];
+	function line({dx, dy}) {
+	    return [1,2,3].reduce((list, i) => list.concat({
+		x: this.x + (dx * i),
+		y: this.y + (dy * i)
+	    }), []);
 	}
-	ring = ring.bind(this);
-	return [1, 2, 3].reduce((acc, i) => acc.concat(ring(i)), [{x: this.x, y: this.y}]);
+	line = line.bind(this);
+
+	const left = {dx: -1, dy: 0};
+	const right = {dx: 1, dy: 0};
+	const up = {dx: 0, dy: -1};
+	const down = {dx: 0, dy: 1};
+	
+	return [left, right, up, down].reduce((acc, direction) => acc.concat([line(direction)]), [[{x: this.x, y: this.y}]]);
     }
 }
