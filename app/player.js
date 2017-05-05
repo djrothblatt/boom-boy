@@ -21,6 +21,10 @@ export default class Player {
 	this.stage.addChild(box);
     }
 
+    remove() {
+	this.stage.removeChild(this);
+    }
+
     direction(key) {
 	return this.moveKeys[key];
     }

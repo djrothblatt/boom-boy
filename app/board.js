@@ -64,7 +64,7 @@ class Board {
     }
 
     isOccupied(x, y) {
-	return (["rock", "destructible-rock", "bomb"].includes(this.grid[x][y]));
+	return (["rock", "destructible-rock", "bomb"].includes(this.grid[x][y])) || (this.grid[x][y] instanceof Player);
     }
 
     placeObstacles() {
@@ -103,17 +103,29 @@ class Board {
 	this.grid[x][y] = "explosion";
 	window.setTimeout(() => {
 	    this.grid[x][y] = undefined;
-	}, 2000);
+	}, 750);
+    }
+
+    clearDestructibles({x, y}) {
+	if (this.grid[x][y] === "destructible-rock") {
+	    this.grid[x][y] = undefined;
+	} else if (this.grid[x][y] instanceof Player) {
+	    this.grid[x][y].remove();
+	    const index = this.players.indexOf(this.grid[x][y]);
+	    this.grid[x][y] = undefined;
+	    this.players.splice(index, 1);
+	}
     }
 
     removeObstructedPositions(line) {
 	let out = [];
 	for (let i = 0, n = line.length; i < n; i++) {
-	    const pos = line[i];
-	    if (this.isOccupied(pos.x, pos.y)) {
+	    const {x, y} = line[i];
+	    if (this.isOccupied(x, y)) {
+		this.clearDestructibles({x, y});
 		return out;
 	    } else {
-		out.push(pos);
+		out.push({x, y});
 	    }
 	};
 	return out;
@@ -155,7 +167,16 @@ class Board {
 	if (direction === 'bomb') {
 	    this.placeBomb(player);
 	} else if (this.isValidMove(player, direction)) {
+	    let x = player.x;
+	    let y = player.y;
+	    if (this.grid[x][y] !== "bomb") {
+		this.grid[x][y] = undefined;
+	    }
+
 	    player.move(direction);
+	    x = player.x;
+	    y = player.y;
+	    this.grid[x][y] = player;
 	}
     }
 }

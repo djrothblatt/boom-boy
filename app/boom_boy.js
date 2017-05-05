@@ -30,7 +30,7 @@ function init() {
 
     const player2 = new Player({
 	x: 10,
-	y: 10,
+	y: 12,
 	color: 'Orange',
 	moveKeys: MOVE_KEYS_P2,
 	stage

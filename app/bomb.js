@@ -3,12 +3,16 @@ export default class Bomb {
 	this.x = x;
 	this.y = y;
 	this.range = 3;
-	this.lifetime = 3000;
+	this.lifetime = 1500;
     }
 
     explosionPath() {
+	function oneUpto(n) {
+	    if (n <= 1) return [1];
+	    return oneUpto(n - 1).concat([n]);
+	}
 	function line({dx, dy}) {
-	    return [1,2,3].reduce((list, i) => list.concat({
+	    return oneUpto(this.range).reduce((list, i) => list.concat({
 		x: this.x + (dx * i),
 		y: this.y + (dy * i)
 	    }), []);
