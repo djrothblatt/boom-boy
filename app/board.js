@@ -4,7 +4,7 @@ const BOX_X = 30; // size of box on x-axis
 const BOX_Y = 40;
 
 import createjs from 'createjs';
-import Player from './player';
+import Movable from './movable';
 import Bomb from './bomb';
 
 class Board {
@@ -63,8 +63,8 @@ class Board {
 	this.players.forEach(player => player.draw(this.boxLength, this.boxHeight));
     }
 
-    isOccupied(x, y) {
-	return (["rock", "destructible-rock", "bomb"].includes(this.grid[x][y])) || (this.grid[x][y] instanceof Player);
+    isOccupied({x, y}) {
+	return (["rock", "destructible-rock", "bomb"].includes(this.grid[x][y])) || this.grid[x][y] instanceof Movable;
     }
 
     placeObstacles() {
@@ -78,7 +78,7 @@ class Board {
 	while (numRandomObstacles > 0) {
 	    let x = Math.floor(Math.random() * this.numCols);
 	    let y = Math.floor(Math.random() * this.numRows);
-	    if (!this.isOccupied(x, y)) {
+	    if (!this.isOccupied({x, y})) {
 		this.grid[x][y] = "destructible-rock";
 		numRandomObstacles--;
 	    }
@@ -109,7 +109,7 @@ class Board {
     clearDestructibles({x, y}) {
 	if (this.grid[x][y] === "destructible-rock") {
 	    this.grid[x][y] = undefined;
-	} else if (this.grid[x][y] instanceof Player) {
+	} else if (this.grid[x][y] instanceof Movable) {
 	    this.grid[x][y].remove();
 	    const index = this.players.indexOf(this.grid[x][y]);
 	    this.grid[x][y] = undefined;
@@ -120,12 +120,12 @@ class Board {
     removeObstructedPositions(line) {
 	let out = [];
 	for (let i = 0, n = line.length; i < n; i++) {
-	    const {x, y} = line[i];
-	    if (this.isOccupied(x, y)) {
-		this.clearDestructibles({x, y});
+	    const pos = line[i];
+	    if (this.isOccupied(pos)) {
+		this.clearDestructibles(pos);
 		return out;
 	    } else {
-		out.push({x, y});
+		out.push(pos);
 	    }
 	};
 	return out;
@@ -155,7 +155,7 @@ class Board {
 	    break;
 	}
 
-	return this.inBounds({x: newX, y: newY}) && !this.isOccupied(newX, newY);
+	return this.inBounds({x: newX, y: newY}) && !this.isOccupied({x: newX, y: newY});
     }
 
     moveAll(key) {
@@ -163,7 +163,8 @@ class Board {
     }
 
     move(player, key) {
-	const direction = player.direction(key);
+	const validMoves = ["left", "right", "up", "down"].filter(this.isValidMove.bind(this, player));
+	const direction = player.direction({key, validMoves});
 	if (direction === 'bomb') {
 	    this.placeBomb(player);
 	} else if (this.isValidMove(player, direction)) {

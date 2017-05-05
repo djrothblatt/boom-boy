@@ -1,6 +1,7 @@
 import createjs from 'createjs';
 import Board from './board';
 import Player from './player';
+import AIPlayer from './ai_player';
 
 const MOVE_KEYS_P1 = {
     ArrowLeft: 'left',
@@ -8,7 +9,7 @@ const MOVE_KEYS_P1 = {
     ArrowRight: 'right',
     ArrowDown: 'down',
     ' ': 'bomb'
-}
+};
 
 const MOVE_KEYS_P2 = {
     a: 'left',
@@ -16,7 +17,7 @@ const MOVE_KEYS_P2 = {
     d: 'right',
     s: 'down',
     f: 'bomb'
-}
+};
 
 function init() {
     const stage = new createjs.Stage('gameEasel');
@@ -36,7 +37,14 @@ function init() {
 	stage
     });
 
-    const board = new Board(stage, [player1, player2]);
+    const player3 = new AIPlayer({
+	x: 10,
+	y: 0,
+	color: 'White',
+	stage
+    });
+
+    const board = new Board(stage, [player1, player2, player3]);
 
     document.onkeydown = e => handleKeyDown(e, board);
     createjs.Ticker.addEventListener('tick', () => tick(board, stage));
