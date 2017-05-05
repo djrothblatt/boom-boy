@@ -8,7 +8,7 @@ import Player from './player';
 import Bomb from './bomb';
 
 class Board {
-    constructor(stage, player) {
+    constructor(stage, players) {
 	this.numRows = NUM_ROWS;
 	this.numCols = NUM_COLS;
 	this.boxLength = BOX_X;
@@ -26,7 +26,7 @@ class Board {
 
 	this.placeObstacles();
 	this.stage = stage;
-	this.player = player;
+	this.players = players;
 
 	this.inBounds = this.inBounds.bind(this);
 	this.placeExplosion = this.placeExplosion.bind(this);
@@ -60,7 +60,7 @@ class Board {
 	    }
 	}
 
-	this.player.draw(this.boxLength, this.boxHeight);
+	this.players.forEach(player => player.draw(this.boxLength, this.boxHeight));
     }
 
     isOccupied(x, y) {
@@ -85,9 +85,9 @@ class Board {
 	}
     }
 
-    placeBomb() {
-	const x = this.player.x;
-	const y = this.player.y;
+    placeBomb(player) {
+	const x = player.x;
+	const y = player.y;
 	const bomb =  new Bomb({x, y});
 	this.grid[x][y] = "bomb";
 	window.setTimeout(() => {
@@ -123,11 +123,11 @@ class Board {
 	return (x >= 0) && (y >= 0) && (x < NUM_COLS) && (y < NUM_ROWS);
     }
 
-    isValidMove(direction) {
-	const pos = {x: this.player.x, y: this.player.y};
+    isValidMove(player, direction) {
+	const pos = {x: player.x, y: player.y};
 
-	let newX = this.player.x;
-	let newY = this.player.y;
+	let newX = player.x;
+	let newY = player.y;
 	switch (direction) {
 	case "left":
 	    newX--;
@@ -146,11 +146,16 @@ class Board {
 	return this.inBounds({x: newX, y: newY}) && !this.isOccupied(newX, newY);
     }
 
-    move(direction) {
-	if (direction === "spacebar") {
-	    this.placeBomb();
-	} else if (this.isValidMove(direction)) {
-	    this.player.move(direction);
+    moveAll(key) {
+	this.players.forEach(player => this.move(player, key));
+    }
+
+    move(player, key) {
+	const direction = player.direction(key);
+	if (direction === 'bomb') {
+	    this.placeBomb(player);
+	} else if (this.isValidMove(player, direction)) {
+	    player.move(direction);
 	}
     }
 }

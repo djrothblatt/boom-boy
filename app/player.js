@@ -2,11 +2,12 @@ import createjs from 'createjs';
 import Bomb from './bomb';
 
 export default class Player {
-    constructor({x, y, color, stage}) {
+    constructor({x, y, color, stage, moveKeys}) {
 	this.x = x;
 	this.y = y;
 	this.color = color;
 	this.stage = stage;
+	this.moveKeys = moveKeys;
     }
 
     draw(boxLength, boxHeight) {
@@ -18,6 +19,10 @@ export default class Player {
 	    boxHeight
 	);
 	this.stage.addChild(box);
+    }
+
+    direction(key) {
+	return this.moveKeys[key];
     }
 
     move(direction) {

@@ -2,32 +2,52 @@ import createjs from 'createjs';
 import Board from './board';
 import Player from './player';
 
-const MOVE_KEYS = {
+const MOVE_KEYS_P1 = {
     ArrowLeft: 'left',
     ArrowUp: 'up',
     ArrowRight: 'right',
     ArrowDown: 'down',
-    ' ': 'spacebar'
-};
+    ' ': 'bomb'
+}
+
+const MOVE_KEYS_P2 = {
+    a: 'left',
+    w: 'up',
+    d: 'right',
+    s: 'down',
+    f: 'bomb'
+}
+
 function init() {
     const stage = new createjs.Stage('gameEasel');
-    const player = new Player({
+    const player1 = new Player({
 	x: 0,
 	y: 0,
 	color: 'Blue',
+	moveKeys: MOVE_KEYS_P1,
 	stage
     });
-    const board = new Board(stage, player);
+
+    const player2 = new Player({
+	x: 10,
+	y: 10,
+	color: 'Orange',
+	moveKeys: MOVE_KEYS_P2,
+	stage
+    });
+
+    const board = new Board(stage, [player1, player2]);
 
     document.onkeydown = e => handleKeyDown(e, board);
     createjs.Ticker.addEventListener('tick', () => tick(board, stage));
 }
 
 function handleKeyDown(e, board) {
-    let direction = MOVE_KEYS[e.key];
-    if (direction) {
+    const key = e.key;
+
+    if (MOVE_KEYS_P1[key] || MOVE_KEYS_P2[key]) {
 	e.preventDefault();
-	board.move(direction);
+	board.moveAll(key);
     }
 }
 
