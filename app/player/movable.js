@@ -24,6 +24,10 @@ export default class Movable {
     remove() {
 	this.stage.removeChild(this);
     }
+
+    direction() {
+	// instantiated by child classes
+    }
     
     move(direction) {
     	switch (direction) {

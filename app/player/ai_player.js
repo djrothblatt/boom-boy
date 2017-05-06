@@ -20,10 +20,10 @@ export default class AIPlayer extends Movable {
     }
     
     direction({validMoves}) {
-	if (--this.ticksToMove === 0) {
+	if (this.ticksToMove-- === 0) {
 	    this.resetMove();
 	    return validMoves[randomInt(validMoves.length)];
-	} else if (--this.ticksToBomb === 0) {
+	} else if (this.ticksToBomb-- === 0) {
 	    this.resetBomb();
 	    return "bomb";	    
 	} else {

@@ -8,7 +8,7 @@ const MOVE_KEYS_P1 = {
     ArrowUp: 'up',
     ArrowRight: 'right',
     ArrowDown: 'down',
-    ' ': 'bomb'
+    '/': 'bomb'
 };
 
 const MOVE_KEYS_P2 = {
@@ -16,7 +16,7 @@ const MOVE_KEYS_P2 = {
     w: 'up',
     d: 'right',
     s: 'down',
-    f: 'bomb'
+    ' ': 'bomb'
 };
 
 function init() {
