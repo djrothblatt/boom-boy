@@ -44,7 +44,14 @@ function init() {
 	stage
     });
 
-    const board = new Board(stage, [player1, player2, player3]);
+    const player4 = new AIPlayer({
+	x: 0,
+	y: 12,
+	color: 'Purple',
+	stage
+    });
+
+    const board = new Board(stage, [player1, player2], [player3, player4]);
 
     document.onkeydown = e => handleKeyDown(e, board);
     createjs.Ticker.addEventListener('tick', () => tick(board, stage));
@@ -55,12 +62,13 @@ function handleKeyDown(e, board) {
 
     if (MOVE_KEYS_P1[key] || MOVE_KEYS_P2[key]) {
 	e.preventDefault();
-	board.moveAll(key);
+	board.movePlayers(key);
     }
 }
 
 function tick(board, stage) {
     stage.removeAllChildren();
+    board.moveAI();
     board.draw();
     stage.update();
 }

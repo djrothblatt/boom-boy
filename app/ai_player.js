@@ -1,7 +1,7 @@
 import Movable from './movable';
 
 function randomInt(max) { // in { 0, 1 ..., max-1 }
-    return Math.floor(Math.random() * max) + 1;
+    return Math.floor(Math.random() * max);
 }
 
 export default class AIPlayer extends Movable {
@@ -12,11 +12,11 @@ export default class AIPlayer extends Movable {
     }
 
     resetMove() {
-	this.ticksToMove = randomInt(8) + 1;
+	this.ticksToMove = randomInt(10) + 1;
     }
 
     resetBomb() {
-	this.ticksToBomb = randomInt(15) + 1;
+	this.ticksToBomb = randomInt(55) + 1;
     }
     
     direction({validMoves}) {
@@ -27,7 +27,7 @@ export default class AIPlayer extends Movable {
 	    this.resetBomb();
 	    return "bomb";	    
 	} else {
-	    return undefined;
+	    return null;
 	}
     }
 }

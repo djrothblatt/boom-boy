@@ -6,9 +6,11 @@ const BOX_Y = 40;
 import createjs from 'createjs';
 import Movable from './movable';
 import Bomb from './bomb';
+import AIPlayer from './ai_player';
+import Player from './player';
 
 class Board {
-    constructor(stage, players) {
+    constructor(stage, humanPlayers, aiPlayers) {
 	this.numRows = NUM_ROWS;
 	this.numCols = NUM_COLS;
 	this.boxLength = BOX_X;
@@ -26,7 +28,9 @@ class Board {
 
 	this.placeObstacles();
 	this.stage = stage;
-	this.players = players;
+	this.humanPlayers = humanPlayers;
+	this.aiPlayers = aiPlayers;
+	this.players = this.aiPlayers.concat(this.humanPlayers);
 
 	this.inBounds = this.inBounds.bind(this);
 	this.placeExplosion = this.placeExplosion.bind(this);
@@ -59,7 +63,6 @@ class Board {
 		this.stage.addChild(box);
 	    }
 	}
-
 	this.players.forEach(player => player.draw(this.boxLength, this.boxHeight));
     }
 
@@ -110,10 +113,20 @@ class Board {
 	if (this.grid[x][y] === "destructible-rock") {
 	    this.grid[x][y] = undefined;
 	} else if (this.grid[x][y] instanceof Movable) {
-	    this.grid[x][y].remove();
 	    const index = this.players.indexOf(this.grid[x][y]);
-	    this.grid[x][y] = undefined;
 	    this.players.splice(index, 1);
+
+	    let targetArray;
+	    if (this.grid[x][y] instanceof Player) {
+		targetArray = this.humanPlayers;
+	    } else {
+		targetArray = this.aiPlayers;
+	    }
+	    const targetIndex = targetArray.indexOf(this.grid[x][y]);
+	    targetArray.splice(targetIndex, 1);
+
+	    this.grid[x][y].remove();
+	    this.grid[x][y] = undefined;
 	}
     }
 
@@ -158,8 +171,12 @@ class Board {
 	return this.inBounds({x: newX, y: newY}) && !this.isOccupied({x: newX, y: newY});
     }
 
-    moveAll(key) {
-	this.players.forEach(player => this.move(player, key));
+    movePlayers(key) {
+	this.humanPlayers.forEach(player => this.move(player, key));
+    }
+
+    moveAI() {
+	this.aiPlayers.forEach(player => this.move(player, null));
     }
 
     move(player, key) {
