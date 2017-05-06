@@ -4,10 +4,10 @@ const BOX_X = 30; // size of box on x-axis
 const BOX_Y = 40;
 
 import createjs from 'createjs';
-import Movable from './movable';
 import Bomb from './bomb';
-import AIPlayer from './ai_player';
-import Player from './player';
+import Movable from './player/movable';
+import AIPlayer from './player/ai_player';
+import Player from './player/player';
 
 class Board {
     constructor(stage, humanPlayers, aiPlayers) {

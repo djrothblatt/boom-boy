@@ -1,7 +1,7 @@
 import createjs from 'createjs';
 import Board from './board';
-import Player from './player';
-import AIPlayer from './ai_player';
+import Player from './player/player';
+import AIPlayer from './player/ai_player';
 
 const MOVE_KEYS_P1 = {
     ArrowLeft: 'left',
