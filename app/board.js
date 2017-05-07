@@ -1,7 +1,7 @@
 const NUM_ROWS = 13; // number of boxes on x-axis
 const NUM_COLS = 11;
-const BOX_X = 30; // size of box on x-axis
-const BOX_Y = 40;
+const BOX_X = 25; // size of box on x-axis
+const BOX_Y = 44;
 
 import createjs from 'createjs';
 import Bomb from './bomb';
