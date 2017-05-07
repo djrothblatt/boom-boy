@@ -30,7 +30,6 @@ class Board {
 	this.stage = stage;
 	this.humanPlayers = humanPlayers;
 	this.aiPlayers = aiPlayers;
-	this.players = this.aiPlayers.concat(this.humanPlayers);
 
 	this.inBounds = this.inBounds.bind(this);
 	this.placeExplosion = this.placeExplosion.bind(this);
@@ -63,11 +62,16 @@ class Board {
 		this.stage.addChild(box);
 	    }
 	}
-	this.players.forEach(player => player.draw(this.boxLength, this.boxHeight));
+	const players = this.humanPlayers.concat(this.aiPlayers);
+	players.forEach(player => player.draw(this.boxLength, this.boxHeight));
+    }
+
+    hasObstacle({x, y}) {
+	return (["rock", "destructible-rock", "bomb"].includes(this.grid[x][y]));
     }
 
     isOccupied({x, y}) {
-	return (["rock", "destructible-rock", "bomb"].includes(this.grid[x][y])) || this.grid[x][y] instanceof Movable;
+	return this.hasObstacle({x, y}) || this.grid[x][y] instanceof Movable;
     }
 
     placeObstacles() {
@@ -113,9 +117,6 @@ class Board {
 	if (this.grid[x][y] === "destructible-rock") {
 	    this.grid[x][y] = undefined;
 	} else if (this.grid[x][y] instanceof Movable) {
-	    const index = this.players.indexOf(this.grid[x][y]);
-	    this.players.splice(index, 1);
-
 	    let targetArray;
 	    if (this.grid[x][y] instanceof Player) {
 		targetArray = this.humanPlayers;
