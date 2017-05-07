@@ -1,7 +1,4 @@
-const NUM_ROWS = 13; // number of boxes on x-axis
-const NUM_COLS = 11;
-const BOX_X = 25; // size of box on x-axis
-const BOX_Y = 44;
+import { NUM_ROWS, NUM_COLS, BOX_X, BOX_Y, NUM_DESTRUCTIBLES } from './constants';
 
 import createjs from 'createjs';
 import Bomb from './bomb';
@@ -81,7 +78,7 @@ class Board {
 	    }
 	}
 
-	let numRandomObstacles = 10;
+	let numRandomObstacles = NUM_DESTRUCTIBLES;
 	while (numRandomObstacles > 0) {
 	    let x = Math.floor(Math.random() * this.numCols);
 	    let y = Math.floor(Math.random() * this.numRows);

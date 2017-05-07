@@ -1,5 +1,5 @@
 /* Abstract class */
-
+import { BOX_X, BOX_Y } from '../constants';
 import createjs from 'createjs';
 
 export default class Movable {
@@ -9,7 +9,7 @@ export default class Movable {
 	this.color = color;
 	this.sprites = new createjs.SpriteSheet({
 	    images: ["../assets/standing-player.png"],
-	    frames: { width: 25, height: 44, numFrames: 1 },
+	    frames: { width: BOX_X, height: BOX_Y, numFrames: 1 },
 	    animations: { stand: 0 }
 	});
 	this.stage = stage;
