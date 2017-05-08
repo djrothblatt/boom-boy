@@ -24,7 +24,7 @@ function init() {
     const player1 = new Player({
 	x: 0,
 	y: 0,
-	color: 'Blue',
+	color: 'white',
 	moveKeys: MOVE_KEYS_P1,
 	stage
     });
@@ -32,7 +32,7 @@ function init() {
     const player2 = new Player({
 	x: 10,
 	y: 12,
-	color: 'Orange',
+	color: 'black',
 	moveKeys: MOVE_KEYS_P2,
 	stage
     });
@@ -40,14 +40,14 @@ function init() {
     const player3 = new AIPlayer({
 	x: 10,
 	y: 0,
-	color: 'White',
+	color: 'red',
 	stage
     });
 
     const player4 = new AIPlayer({
 	x: 0,
 	y: 12,
-	color: 'Purple',
+	color: 'blue',
 	stage
     });
 

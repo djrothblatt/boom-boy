@@ -7,17 +7,11 @@ export default class Movable {
 	this.x = x;
 	this.y = y;
 	this.color = color;
-	this.sprites = new createjs.SpriteSheet({
-	    images: ["../assets/standing-player.png"],
-	    frames: { width: BOX_X, height: BOX_Y, numFrames: 1 },
-	    animations: { stand: 0 }
-	});
 	this.stage = stage;
     }
 
     draw(boxLength, boxHeight) {
-	let sprite = new createjs.Sprite(this.sprites, "stand");
-
+	let sprite = new createjs.Bitmap(`../assets/${this.color}-standing-player.png`);
 	sprite.x = this.x * boxLength;
 	sprite.y = this.y * boxHeight;
 	this.stage.addChild(sprite);

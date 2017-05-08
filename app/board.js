@@ -35,28 +35,21 @@ class Board {
     draw() {
 	for (let i = 0; i < this.numCols; i++) {
 	    for (let j = 0; j < this.numRows; j++) {
-		const box = new createjs.Shape();
+		const xPos = i * this.boxLength;
+		const yPos = j * this.boxHeight;
 
-		let color;
-		if (this.grid[i][j] === "rock") {
-		    color = "Gray";
-		} else if (this.grid[i][j] === "destructible-rock") {
-		    color = "Black";
-		} else if (this.grid[i][j] === "explosion") {
-		    color = "Red";
-		} else if (this.grid[i][j] === "bomb") {
-		    color = "Yellow";
-		} else {
-		    color = "Green";
-		}
+		const floorTile = new createjs.Bitmap('../assets/floor.png');
+		floorTile.x = xPos;
+		floorTile.y = yPos;
+		this.stage.addChild(floorTile);
 
-		box.graphics.beginFill(color).drawRect(
-		    i * this.boxLength,
-		    j * this.boxHeight,
-		    this.boxLength,
-		    this.boxHeight
-		);
-		this.stage.addChild(box);
+		let tileType = this.grid[i][j] || "floor";
+		if (tileType instanceof Movable) { tileType = "floor"; }
+
+		const tile = new createjs.Bitmap(`../assets/${tileType}.png`);
+		tile.x = xPos;
+		tile.y = yPos;
+		this.stage.addChild(tile);
 	    }
 	}
 	const players = this.humanPlayers.concat(this.aiPlayers);
@@ -64,7 +57,7 @@ class Board {
     }
 
     hasObstacle({x, y}) {
-	return (["rock", "destructible-rock", "bomb"].includes(this.grid[x][y]));
+	return (["brick", "destructibleBrick", "bomb"].includes(this.grid[x][y]));
     }
 
     isOccupied({x, y}) {
@@ -74,7 +67,7 @@ class Board {
     placeObstacles() {
 	for (let i = 1; i < this.numCols; i += 2) {
 	    for (let j = 1; j < this.numRows; j += 2) {
-		this.grid[i][j] = "rock";
+		this.grid[i][j] = "brick";
 	    }
 	}
 
@@ -83,7 +76,7 @@ class Board {
 	    let x = Math.floor(Math.random() * this.numCols);
 	    let y = Math.floor(Math.random() * this.numRows);
 	    if (!this.isOccupied({x, y})) {
-		this.grid[x][y] = "destructible-rock";
+		this.grid[x][y] = "destructibleBrick";
 		numRandomObstacles--;
 	    }
 	}
@@ -111,7 +104,7 @@ class Board {
     }
 
     clearDestructibles({x, y}) {
-	if (this.grid[x][y] === "destructible-rock") {
+	if (this.grid[x][y] === "destructibleBrick") {
 	    this.grid[x][y] = undefined;
 	} else if (this.grid[x][y] instanceof Movable) {
 	    let targetArray;
@@ -180,11 +173,11 @@ class Board {
     move(player, key) {
 	const validMoves = ["left", "right", "up", "down"].filter(this.isValidMove.bind(this, player));
 	const direction = player.direction({key, validMoves});
-	if (direction === 'bomb') {
+	let x = player.x;
+	let y = player.y;
+	if (direction === 'bomb' && this.grid[x][y] !== 'bomb') {
 	    this.placeBomb(player);
 	} else if (this.isValidMove(player, direction)) {
-	    let x = player.x;
-	    let y = player.y;
 	    if (this.grid[x][y] !== "bomb") {
 		this.grid[x][y] = undefined;
 	    }
