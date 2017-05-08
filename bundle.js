@@ -114,7 +114,7 @@ var Movable = function () {
 			_createClass(Movable, [{
 						key: 'draw',
 						value: function draw(boxLength, boxHeight) {
-									var sprite = new _createjs2.default.Bitmap('../assets/' + this.color + '-standing-player.png');
+									var sprite = new _createjs2.default.Bitmap('assets/' + this.color + '-standing-player.png');
 									sprite.x = this.x * boxLength;
 									sprite.y = this.y * boxHeight;
 									this.stage.addChild(sprite);
@@ -386,7 +386,7 @@ var Board = function () {
 															var xPos = i * this.boxLength;
 															var yPos = j * this.boxHeight;
 
-															var floorTile = new _createjs2.default.Bitmap('../assets/floor.png');
+															var floorTile = new _createjs2.default.Bitmap('assets/floor.png');
 															floorTile.x = xPos;
 															floorTile.y = yPos;
 															this.stage.addChild(floorTile);
@@ -396,7 +396,7 @@ var Board = function () {
 																		tileType = "floor";
 															}
 
-															var tile = new _createjs2.default.Bitmap('../assets/' + tileType + '.png');
+															var tile = new _createjs2.default.Bitmap('assets/' + tileType + '.png');
 															tile.x = xPos;
 															tile.y = yPos;
 															this.stage.addChild(tile);

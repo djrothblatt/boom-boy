@@ -15,6 +15,10 @@ module.exports = {
 		query: {
 		    presets: ['es2015']
 		}
+	    },
+	    {
+		test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3)$/,
+		loader: "file"
 	    }
 	]
     },
