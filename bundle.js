@@ -146,7 +146,7 @@ var Movable = function () {
     _createClass(Movable, [{
         key: 'draw',
         value: function draw(boxLength, boxHeight) {
-            var sprite = new _createjs2.default.Bitmap('../assets/' + this.color + '-standing-player.png');
+            var sprite = new _createjs2.default.Bitmap('./assets/' + this.color + '-standing-player.png');
             sprite.x = this.x * boxLength;
             sprite.y = this.y * boxHeight;
             this.stage.addChild(sprite);
