@@ -3,11 +3,63 @@
     <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
     <script type="text/javascript" src="./bundle.js"></script>
     <link rel="stylesheet" href="assets/application.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body>
-    <canvas
+    <nav>
+      <a href="https://www.github.com/djrothblatt"><i class="fa
+							     fa-github fa-3x"></i></a>
+      <a href="https://www.linkedin.com/in/daniel-rothblatt-056267bb/"><i class="fa
+										 fa-linkedin fa-3x"></i></a>
+    </nav>
+    <div class="presentation">
+      <h1>Boom Boy</h1>
+      <h2>Daniel Rothblatt</h2>
+      <canvas
        id="gameEasel"
-       width="400"
-       height="1000"></canvas>
+       width="330"
+       height="700"></canvas>
+    </div>
+    <aside>
+      <h1>Controls</h1>
+      <h2>Player 1</h2>
+      <p>Move: WASD<br>
+	Bomb: F</p>
+      <h2>Player 2</h2>
+      <p>Move: IJKL<br>
+	BOMB: H</p>
+      <br>
+      <div id="instructionsModal" class="modal">
+	<div class="modalContent">
+	  <div class="modalHeader">
+	    <span class="close">&times;</span>
+	  </div>
+	  <div class="modalBody">
+	    <p></p>
+
+	    <h2>Player 1 (white)</h2>
+	    <h3>Directions</h3>
+	    <dl>
+	      <dt>up: w</dt>
+	      <dt>down: s</dt>
+	      <dt>left: a</dt>
+	      <dt>right: d</dt>
+	    </dl>
+	    bomb: f
+	    <section class="color">
+	    <h2>Player 2 (black)</h2>
+	    <h3>Directions</h3>
+	    <dl>
+	      <dt>up: i</dt>
+	      <dt>down: k</dt>
+	      <dt>left: j</dt>
+	      <dt>right: l</dt>
+	    </dl>
+	    bomb: h
+	  </div>
+	  <div class="modalHeader"></div>
+	</div>
+      </div>
+    </aside>
   </body>
 </html>
