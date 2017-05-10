@@ -409,7 +409,7 @@ var Board = function () {
                     var xPos = i * this.boxLength;
                     var yPos = j * this.boxHeight;
 
-                    var floorTile = new _createjs2.default.Bitmap('../assets/floor.png');
+                    var floorTile = new _createjs2.default.Bitmap('./assets/floor.png');
                     floorTile.x = xPos;
                     floorTile.y = yPos;
                     this.stage.addChild(floorTile);
@@ -419,7 +419,7 @@ var Board = function () {
                         tileType = "floor";
                     }
 
-                    var tile = new _createjs2.default.Bitmap('../assets/' + tileType + '.png');
+                    var tile = new _createjs2.default.Bitmap('./assets/' + tileType + '.png');
                     tile.x = xPos;
                     tile.y = yPos;
                     this.stage.addChild(tile);
