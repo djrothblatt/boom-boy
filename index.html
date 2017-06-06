@@ -10,68 +10,115 @@
   <body>
     <nav>
       <a href="https://www.github.com/djrothblatt"><i class="fa
-							     fa-github fa-3x"></i></a>
+                                                             fa-github fa-3x"></i></a>
       <a href="https://www.linkedin.com/in/daniel-rothblatt-056267bb/"><i class="fa
-										 fa-linkedin fa-3x"></i></a>
+                                                                                 fa-linkedin fa-3x"></i></a>
     </nav>
     <div class="presentation">
       <h1>Boom Boy</h1>
       <h2>Daniel Rothblatt</h2>
       <canvas
-         id="gameEasel"
-         width="330"
-         height="700" />
+        id="gameEasel"
+        width="330"
+        height="700" />
     </div>
     <aside>
       <h1>Controls</h1>
       <h2>Player 1</h2>
       <p>Move: WASD<br>
-	Bomb: F</p>
+        Bomb: F</p>
       <h2>Player 2</h2>
       <p>Move: IJKL<br>
-	Bomb: H</p>
+        Bomb: H</p>
       <br>
       <div id="instructionsModal" class="modal">
-	<div class="modalContent">
-	  <div class="modalHeader">
-	    <span class="close">&times;</span>
-	  </div>
-	  <div class="modalBody">
+        <div class="modalContent">
+          <div class="modalHeader">
+            <span class="close">&times;</span>
+          </div>
+          <div class="modalBody">
             <h1>Boom Boy</h1>
             <h2>By
               <a href="danielrothblatt.me">Daniel Rothblatt</a>
               <a href="https://www.github.com/djrothblatt"><i class="fa
-							             fa-github fa-2x"></i></a>
+                                                                     fa-github fa-2x"></i></a>
               <a href="https://www.linkedin.com/in/daniel-rothblatt-056267bb/"><i class="fa
-										         fa-linkedin fa-2x"></i></a>
-	      <p>Think you're the toughest of the tough? Prove it by
-	      being the last one standing! Drop bombs to blow everyone
-	      up, but don't get caught in the blast!</p>
-
+                                                                                         fa-linkedin fa-2x"></i></a>
+              <p>Think you're the toughest of the tough? Prove it by
+                being the last one standing! Drop bombs to blow everyone
+                up, but don't get caught in the blast!</p>
 
               <h1>Controls</h1>
-	    <h2>Player 1 (white)</h2>
-	    <h3>Directions</h3>
-	    <dl>
-	      <dt>up: w</dt>
-	      <dt>down: s</dt>
-	      <dt>left: a</dt>
-	      <dt>right: d</dt>
-	    </dl>
-	    bomb: f
-	    <section class="color">
-	      <h2>Player 2 (black)</h2>
-	      <h3>Directions</h3>
-	      <dl>
-	        <dt>up: i</dt>
-	        <dt>down: k</dt>
-	        <dt>left: j</dt>
-	        <dt>right: l</dt>
-	      </dl>
-	      bomb: h
-	  </div>
-	  <div class="modalHeader"></div>
-	</div>
+              <h2>Player 1 (white, upper left-hand corner)</h2>
+              <h3>Directions</h3>
+              <table>
+                <tr>
+                  <th>direction</th>
+                  <th>key</th>
+                </tr>
+                <tr>
+                  <td>up</td>
+                  <td>w</td>
+                </tr>
+
+                <tr>
+                  <td>down</td>
+                  <td>s</td>
+                </tr>
+
+                <tr>
+                  <td>left</td>
+                  <td>a</td>
+                </tr>
+
+                <tr>
+                  <td>right</td>
+                  <td>d</td>
+                </tr>
+
+                <tr>
+                  <td>bomb</td>
+                  <td>f</td>
+                </tr>
+              </table>
+              <section class="color">
+                <h2>Player 2 (black, upper right-hand corner)</h2>
+                <h3>Directions</h3>
+                <table>
+                  <tr>
+                    <th>direction</th>
+                    <th>key</th>
+                  </tr>
+
+                  <tr>
+                    <td>up</td>
+                    <td>i</td>
+                  </tr>
+
+                  <tr>
+                    <td>down</td>
+                    <td>k</td>
+                  </tr>
+
+                  <tr>
+                    <td>left</td>
+                    <td>j</td>
+                  </tr>
+
+                  <tr>
+                    <td>right</td>
+                    <td>l</td>
+                  </tr>
+
+                  <tr>
+                    <td>bomb</td>
+                    <td>h</td>
+                  </tr>
+                </table>
+                <p>Press the space bar to pause/unpause</p>
+          </div>
+          <div class="modalHeader"></div>
+        </div>
       </div>
     </aside>
   </body>
