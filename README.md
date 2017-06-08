@@ -67,12 +67,60 @@ draw() {
 
 There are two types of moving objects: human players (`player.js`) and
 AI players (`ai_player.js`). Each inherits from a single Movable class
-(`movable.js`) to keep code DRY. The main difference between a
-`Player` and an `AIPlayer` is the implementation of the `direction`
-method, which determines what move the player should make: `Player`
-objects read inputs key inputs from the player(s); `AIPlayer` objects
-use a predetermined strategy to determine what moves to make and when
-to drop bombs.
+(`movable.js`) to keep code DRY.
+
+``` javascript
+class Movable {
+    constructor({x, y, color, stage}) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.stage = stage;
+    }
+
+    draw(boxLength, boxHeight) {
+        let sprite = new createjs.Bitmap(`./assets/${this.color}-standing-player.png`);
+        sprite.x = this.x * boxLength;
+        sprite.y = this.y * boxHeight;
+        this.stage.addChild(sprite);
+    }
+
+    remove() {
+        this.stage.removeChild(this);
+    }
+
+    direction() {
+        // instantiated by child classes
+    }
+
+    move(direction) {
+        switch (direction) {
+        case 'left':
+            this.x--;
+            return;
+        case 'right':
+            this.x++;
+            return;
+        case 'up':
+            this.y--;
+            return;
+        case 'down':
+            this.y++;
+            return;
+        default:
+            return;
+        }
+    }
+}
+```
+
+As can be seen, `Player` and `AIPlayer` objects have much of their
+behavior in common. The main difference between a `Player` and an
+`AIPlayer` is the implementation of the `direction` method, which
+determines what move the player should make: `Player` objects read
+inputs key inputs from the player(s); `AIPlayer` objects use a
+predetermined strategy to determine what moves to make and when to
+drop bombs.
 
 To allow for a multiplayer gaming experience, `Player` objects take in
 a `moveKeys` object which maps keys on the keyboard to directions on
