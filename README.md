@@ -65,4 +65,19 @@ draw() {
 
 ### Movement ###
 
+There are two types of moving objects: human players (`player.js`) and
+AI players (`ai_player.js`). Each inherits from a single Movable class
+(`movable.js`) to keep code DRY. The main difference between a
+`Player` and an `AIPlayer` is the implementation of the `direction`
+method, which determines what move the player should make: `Player`
+objects read inputs key inputs from the player(s); `AIPlayer` objects
+use a predetermined strategy to determine what moves to make and when
+to drop bombs.
+
+To allow for a multiplayer gaming experience, `Player` objects take in
+a `moveKeys` object which maps keys on the keyboard to directions on
+the board. By mapping different keys to each `Player`'s directions,
+multiple players may play simultaneously without interfering with each
+other's movement.
+
 ### Bombs ###
