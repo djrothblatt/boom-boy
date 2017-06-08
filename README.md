@@ -1,11 +1,21 @@
 # Boom Boy #
 
-[Live](https://danielrothblatt.me/boom-boy)
+[Live](http://danielrothblatt.me/boom-boy)
+
+![Still from Boom Boy](./assets/boom-boy-action-shot.png)
 
 ## Instructions ##
 
-Player 1 (white): Move with WASD, drop bombs with F.
-Player 2 (black): Move with IJKL, drop bombs with H.
+### One Player ###
+
+Move with <kbd>←</kbd><kbd>↑</kbd><kbd>→</kbd><kbd>↓</kbd>. Drop bombs with <kbd>space</kbd>.
+
+### Two Players ###
+
+Player 1 (white): Move with <kbd>w</kbd><kbd>a</kbd><kbd>s</kbd><kbd>d</kbd>, drop bombs with <kbd>f</kbd>.
+Player 2 (black): Move with <kbd>i</kbd><kbd>j</kbd><kbd>k</kbd><kbd>l</kbd>, drop bombs with <kbd>h</kbd>.
+
+### The Goal ###
 
 The goal is to be the last boom boy standing. You work towards this
 goal by blowing up your enemies with your bombs. Bombs will explode on
