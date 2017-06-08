@@ -90,5 +90,5 @@ AI Players currently move by choosing a random valid direction to move
 every few ticks of game's internal Ticker. To provide a more engaging
 player experience, in the future I would like to implement more
 complex behavior. One possible set of behaviors would be to direct AI
-players to alternately target another player (using [A* search](en.wikipedia.org/wiki/A*_search_algorithm))
+players to alternately target another player (using [A* search](http://en.wikipedia.org/wiki/A*_search_algorithm))
 and avoid all other players.
