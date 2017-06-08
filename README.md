@@ -130,6 +130,13 @@ other's movement.
 
 ### Bombs ###
 
+Bombs and explosions are rendered by `Board`. When a player places a
+bomb, a `Bomb` object (`bomb.js`) is instantiated. A `Bomb` has a
+`lifetime` property, dictating how long a `Bomb` will remain on the
+board before it explodes, and a `range` property and `explosionPath`
+method to determine how far and in which directions the explosion will
+travel.
+
 ## Future Directions ##
 
 ### More Complex AI ###
