@@ -32,6 +32,37 @@ can destroy bricks, but not pillars.
 
 ### 2D Rendering ###
 
+Boom Boy uses Easel.js for 2D rendering because it provides a simple
+interface to the HTML5 canvas element.
+
+Rendering is done by the Board class (`board.js`). The Board has a
+property `grid`, a 2D array storing references to every other game
+object, and its `draw` method picks the appropriate image to render at
+every position in the grid.
+
+``` javascript
+draw() {
+    const floorTile = new createjs.Bitmap('./assets/floor.png');
+     for (let i = 0; i < this.numCols; i++) {
+        for (let j = 0; j < this.numRows; j++) {
+            const xPos = i * this.boxLength;
+            const yPos = j * this.boxHeight;
+             floorTile.x = xPos;
+            floorTile.y = yPos;
+            this.stage.addChild(floorTile);
+             let tileType = this.grid[i][j] || "floor";
+            if (tileType instanceof Movable) { tileType = "floor"; }
+             const tile = new createjs.Bitmap(`./assets/${tileType}.png`);
+            tile.x = xPos;
+            tile.y = yPos;
+            this.stage.addChild(tile);
+        }
+    }
+    const players = this.humanPlayers.concat(this.aiPlayers);
+    players.forEach(player => player.draw(this.boxLength, this.boxHeight));
+}
+```
+
 ### Movement ###
 
 ### Bombs ###
