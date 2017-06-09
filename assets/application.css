@@ -38,6 +38,10 @@ a {
     color: black;
 }
 
+aside p {
+    font-size: 30px;
+}
+
 .fa {
     margin: 10px;
 }
