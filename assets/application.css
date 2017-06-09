@@ -25,6 +25,10 @@ h3 {
     margin: 5px 0;
 }
 
+canvas {
+    margin: 0 0 0 30px;
+}
+
 table {
     margin: 15px 0;
 }
