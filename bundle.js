@@ -88,6 +88,14 @@ var BOX_X = exports.BOX_X = 25; // size of box on x-axis
 var BOX_Y = exports.BOX_Y = 44;
 var NUM_DESTRUCTIBLES = exports.NUM_DESTRUCTIBLES = 25;
 
+var MOVE_KEYS_SINGLE_PLAYER = exports.MOVE_KEYS_SINGLE_PLAYER = {
+    'ArrowLeft': 'left',
+    'ArrowUp': 'up',
+    'ArrowRight': 'right',
+    'ArrowDown': 'down',
+    b: 'bomb'
+};
+
 var MOVE_KEYS_P1 = exports.MOVE_KEYS_P1 = {
     a: 'left',
     w: 'up',
@@ -237,17 +245,17 @@ var AIPlayer = function (_Movable) {
     }
 
     _createClass(AIPlayer, [{
-        key: "resetMove",
+        key: 'resetMove',
         value: function resetMove() {
             this.ticksToMove = randomInt(10) + 1;
         }
     }, {
-        key: "resetBomb",
+        key: 'resetBomb',
         value: function resetBomb() {
             this.ticksToBomb = randomInt(55) + 1;
         }
     }, {
-        key: "direction",
+        key: 'direction',
         value: function direction(_ref2) {
             var validMoves = _ref2.validMoves;
 
@@ -256,7 +264,7 @@ var AIPlayer = function (_Movable) {
                 return validMoves[randomInt(validMoves.length)];
             } else if (this.ticksToBomb-- === 0) {
                 this.resetBomb();
-                return "bomb";
+                return 'bomb';
             } else {
                 return null;
             }
@@ -320,7 +328,9 @@ var Player = function (_Movable) {
         value: function direction(_ref2) {
             var key = _ref2.key;
 
-            if (_createjs2.default.Ticker.paused) return null;
+            if (_createjs2.default.Ticker.paused) {
+                return null;
+            }
             return this.moveKeys[key];
         }
     }]);
@@ -378,6 +388,7 @@ var Board = function () {
         this.boxLength = _constants.BOX_X;
         this.boxHeight = _constants.BOX_Y;
 
+        this.totalPlayers = 4;
         this.grid = [];
 
         for (var i = 0; i < this.numCols; i++) {
@@ -408,15 +419,15 @@ var Board = function () {
                 for (var j = 0; j < this.numRows; j++) {
                     var xPos = i * this.boxLength;
                     var yPos = j * this.boxHeight;
-
                     var floorTile = new _createjs2.default.Bitmap('./assets/floor.png');
+
                     floorTile.x = xPos;
                     floorTile.y = yPos;
                     this.stage.addChild(floorTile);
 
-                    var tileType = this.grid[i][j] || "floor";
+                    var tileType = this.grid[i][j] || 'floor';
                     if (tileType instanceof _movable2.default) {
-                        tileType = "floor";
+                        tileType = 'floor';
                     }
 
                     var tile = new _createjs2.default.Bitmap('./assets/' + tileType + '.png');
@@ -436,7 +447,7 @@ var Board = function () {
             var x = _ref.x,
                 y = _ref.y;
 
-            return ["brick", "destructibleBrick", "bomb"].includes(this.grid[x][y]);
+            return ['brick', 'destructibleBrick', 'bomb'].includes(this.grid[x][y]);
         }
     }, {
         key: 'isOccupied',
@@ -450,28 +461,28 @@ var Board = function () {
         key: 'placeBorder',
         value: function placeBorder() {
             for (var i = 0; i < this.numCols; i++) {
-                this.grid[i][0] = "brick";
-                this.grid[i][this.numRows - 1] = "brick";
+                this.grid[i][0] = 'brick';
+                this.grid[i][this.numRows - 1] = 'brick';
             }
             for (var j = 0; j < this.numRows; j++) {
-                this.grid[0][j] = "brick";
-                this.grid[this.numCols - 1][j] = "brick";
+                this.grid[0][j] = 'brick';
+                this.grid[this.numCols - 1][j] = 'brick';
             }
         }
     }, {
         key: 'placeDestructibles',
         value: function placeDestructibles() {
             for (var col = 3; col < this.numCols - 3; col++) {
-                this.grid[col][1] = "destructibleBrick";
-                this.grid[col][this.numRows - 2] = "destructibleBrick";
+                this.grid[col][1] = 'destructibleBrick';
+                this.grid[col][this.numRows - 2] = 'destructibleBrick';
             }
             for (var _col = 2; _col < this.numCols - 2; _col++) {
-                this.grid[_col][2] = "destructibleBrick";
-                this.grid[_col][this.numRows - 3] = "destructibleBrick";
+                this.grid[_col][2] = 'destructibleBrick';
+                this.grid[_col][this.numRows - 3] = 'destructibleBrick';
             }
             for (var _col2 = 1; _col2 < this.numCols - 1; _col2++) {
                 for (var row = 3; row < this.numRows - 3; row++) {
-                    this.grid[_col2][row] = "destructibleBrick";
+                    this.grid[_col2][row] = 'destructibleBrick';
                 }
             }
         }
@@ -480,7 +491,7 @@ var Board = function () {
         value: function placeIndestructibles() {
             for (var i = 2; i < this.numCols - 2; i += 2) {
                 for (var j = 2; j < this.numRows - 2; j += 2) {
-                    this.grid[i][j] = "brick";
+                    this.grid[i][j] = 'brick';
                 }
             }
         }
@@ -499,7 +510,7 @@ var Board = function () {
             var x = player.x;
             var y = player.y;
             var bomb = new _bomb2.default({ x: x, y: y });
-            this.grid[x][y] = "bomb";
+            this.grid[x][y] = 'bomb';
 
             window.setTimeout(function () {
                 _this2.grid[x][y] = undefined;
@@ -523,7 +534,7 @@ var Board = function () {
             var x = _ref3.x,
                 y = _ref3.y;
 
-            this.grid[x][y] = "explosion";
+            this.grid[x][y] = 'explosion';
             window.setTimeout(function () {
                 _this3.grid[x][y] = undefined;
             }, 750);
@@ -534,7 +545,7 @@ var Board = function () {
             var x = _ref4.x,
                 y = _ref4.y;
 
-            if (this.grid[x][y] === "destructibleBrick") {
+            if (this.grid[x][y] === 'destructibleBrick') {
                 this.grid[x][y] = undefined;
             } else if (this.grid[x][y] instanceof _movable2.default) {
                 var targetArray = void 0;
@@ -548,6 +559,7 @@ var Board = function () {
                 var targetIndex = targetArray.indexOf(this.grid[x][y]);
                 targetArray.splice(targetIndex, 1);
 
+                this.totalPlayers--;
                 this.grid[x][y].remove();
                 this.grid[x][y] = undefined;
             }
@@ -585,16 +597,16 @@ var Board = function () {
             var newX = player.x;
             var newY = player.y;
             switch (direction) {
-                case "left":
+                case 'left':
                     newX--;
                     break;
-                case "right":
+                case 'right':
                     newX++;
                     break;
-                case "up":
+                case 'up':
                     newY--;
                     break;
-                case "down":
+                case 'down':
                     newY++;
                     break;
             }
@@ -622,14 +634,14 @@ var Board = function () {
     }, {
         key: 'move',
         value: function move(player, key) {
-            var validMoves = ["left", "right", "up", "down"].filter(this.isValidMove.bind(this, player));
+            var validMoves = ['left', 'right', 'up', 'down'].filter(this.isValidMove.bind(this, player));
             var direction = player.direction({ key: key, validMoves: validMoves });
             var x = player.x;
             var y = player.y;
             if (direction === 'bomb' && this.grid[x][y] !== 'bomb') {
                 this.placeBomb(player);
             } else if (this.isValidMove(player, direction)) {
-                if (this.grid[x][y] !== "bomb") {
+                if (this.grid[x][y] !== 'bomb') {
                     this.grid[x][y] = undefined;
                 }
 
@@ -638,6 +650,11 @@ var Board = function () {
                 y = player.y;
                 this.grid[x][y] = player;
             }
+        }
+    }, {
+        key: 'isGameOver',
+        value: function isGameOver() {
+            return this.totalPlayers <= 1;
         }
     }]);
 
@@ -741,89 +758,118 @@ var _constants = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var NUM_PLAYERS = 1;
+
 function init() {
+    _createjs2.default.Ticker.removeAllEventListeners();
+
     var stage = new _createjs2.default.Stage('gameEasel');
+
+    var player2 = void 0;
+    if (NUM_PLAYERS == 1) {
+        player2 = new _ai_player2.default({
+            x: _constants.NUM_COLS - 2,
+            y: 1,
+            color: 'black',
+            stage: stage
+        });
+    } else {
+        player2 = new _player2.default({
+            x: _constants.NUM_COLS - 2,
+            y: 1,
+            color: 'black',
+            moveKeys: _constants.MOVE_KEYS_P2,
+            stage: stage
+        });
+    }
+
     var player1 = new _player2.default({
         x: 1,
         y: 1,
         color: 'white',
-        moveKeys: _constants.MOVE_KEYS_P1,
+        moveKeys: NUM_PLAYERS == 1 ? _constants.MOVE_KEYS_SINGLE_PLAYER : _constants.MOVE_KEYS_P1,
         stage: stage
-    });
-
-    var player2 = new _player2.default({
-        x: _constants.NUM_COLS - 2,
-        y: 1,
-        color: 'black',
-        moveKeys: _constants.MOVE_KEYS_P2,
-        stage: stage
-    });
-
-    var player3 = new _ai_player2.default({
+    }),
+        player3 = new _ai_player2.default({
         x: 1,
         y: _constants.NUM_ROWS - 2,
         color: 'red',
         stage: stage
-    });
-
-    var player4 = new _ai_player2.default({
+    }),
+        player4 = new _ai_player2.default({
         x: _constants.NUM_COLS - 2,
         y: _constants.NUM_ROWS - 2,
         color: 'blue',
         stage: stage
-    });
-
-    var board = new _board2.default(stage, [player1, player2], [player3, player4]);
+    }),
+        humanPlayers = [player1].concat(NUM_PLAYERS == 1 ? [] : [player2]),
+        aiPlayers = [player3, player4].concat(NUM_PLAYERS == 1 ? [player2] : []),
+        board = new _board2.default(stage, humanPlayers, aiPlayers);
 
     _createjs2.default.Ticker.addEventListener('tick', function () {
         return tick(board, stage);
     });
     _createjs2.default.Ticker.paused = true;
 
-    var modal = document.getElementById('instructionsModal');
-    modal.style.display = 'block';
-    var span = document.getElementsByClassName('close')[0];
-    span.onclick = function () {
-        modal.style.display = 'none';
+    var instructionsModal = document.getElementById('instructionsModal'),
+        closeButton = document.getElementsByClassName('close')[0];
+
+    instructionsModal.style.display = 'block';
+    closeButton.onclick = function () {
+        instructionsModal.style.display = 'none';
         _createjs2.default.Ticker.paused = false;
     };
+
+    var gameOverModal = document.getElementById('gameOverModal'),
+        playAgainButton = document.getElementById('playAgain');
+    gameOverModal.style.display = 'none';
+    playAgainButton.onclick = init;
+
     window.onclick = function (e) {
-        if (e.target === modal) {
-            modal.style.display = 'none';
+        if (e.target === instructionsModal) {
+            instructionsModal.style.display = 'none';
             _createjs2.default.Ticker.paused = false;
         }
     };
-    document.onkeydown = function (e) {
+    window.onkeydown = function (e) {
         return handleKeyDown(e, board);
     };
 }
 
 function handleKeyDown(e, board) {
-    var key = e.key;
+    var key = e.key,
+        playerKeyDown = board.humanPlayers.some(function (player) {
+        return player.moveKeys[key];
+    });
 
-    if (_constants.MOVE_KEYS_P1[key] || _constants.MOVE_KEYS_P2[key]) {
+    if (playerKeyDown) {
         e.preventDefault();
         board.movePlayers(key);
     }
-    if (key == " ") {
+    if (key == ' ') {
         e.preventDefault();
         togglePause();
     }
 }
 
-function toggleModal() {
+function toggleInstructionsModal() {
     var modal = document.getElementById('instructionsModal');
     var display = modal.style.display;
-    modal.style.display = display === "block" ? "none" : "block";
+    modal.style.display = display === 'block' ? 'none' : 'block';
 }
 
 function togglePause() {
-    toggleModal();
+    toggleInstructionsModal();
     _createjs2.default.Ticker.paused = !_createjs2.default.Ticker.paused;
 }
 
 function tick(board, stage) {
     stage.removeAllChildren();
+    if (board.isGameOver()) {
+        document.getElementById('gameOverModal').style.display = 'block';
+        _createjs2.default.Ticker.paused = true;
+    }
+
     if (!_createjs2.default.Ticker.paused) {
         board.moveAI();
     }
