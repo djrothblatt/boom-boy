@@ -8,7 +8,7 @@
 
 ### One Player ###
 
-Move with <kbd>←</kbd><kbd>↑</kbd><kbd>→</kbd><kbd>↓</kbd>. Drop bombs with <kbd>space</kbd>.
+Move with <kbd>←</kbd><kbd>↑</kbd><kbd>→</kbd><kbd>↓</kbd>. Drop bombs with <kbd>b</kbd>.
 
 ### Two Players ###
 
@@ -66,7 +66,7 @@ draw() {
 ### Movement ###
 
 There are two types of moving objects: human players (`player.js`) and
-AI players (`ai_player.js`). Each inherits from a single Movable class
+AI players (`ai_player.js`). Each inherits from a single `Movable` class
 (`movable.js`) to keep code DRY.
 
 ``` javascript
