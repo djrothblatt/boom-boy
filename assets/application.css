@@ -95,9 +95,21 @@ aside {
 
 .modalContent {
     position: fixed;
-    bottom: 100px;
     background-color: #cbcbcb;
-    width: 100%;
+    border: 4px solid #ef66dd;
+    padding: 8px;
+}
+
+.pauseScreen {
+    top: 170px;
+    left: 300px;
+    width: 60%;
+}
+
+.gameOver {
+    top: 400px;
+    left: 600px;
+    width: 30%;
 }
 
 .close {
@@ -116,12 +128,15 @@ aside {
 
 .modalHeader, .modalFooter {
     padding: 2px 16px;
-    background-color: #ef66dd;
     color: white;
 }
 
 .modalBody {
     padding: 2px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #playAgain {
